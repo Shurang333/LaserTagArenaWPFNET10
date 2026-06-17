@@ -1,0 +1,127 @@
+<Window x:Class="LaserTagArenaWPFNET10.Views.RegisterWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="LASERTAG ARENA // РЕГИСТРАЦИЯ"
+        Height="600" Width="450"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown">
+
+    <Window.Resources>
+        <SolidColorBrush x:Key="BgDark" Color="#0A0A0F"/>
+        <SolidColorBrush x:Key="BgPanel" Color="#111118"/>
+        <SolidColorBrush x:Key="AccentGreen" Color="#00FFAA"/>
+        <SolidColorBrush x:Key="AccentPink" Color="#FF3366"/>
+        <SolidColorBrush x:Key="TextMuted" Color="#666677"/>
+    </Window.Resources>
+
+    <Border Background="{StaticResource BgDark}" CornerRadius="8"
+            BorderBrush="{StaticResource AccentGreen}" BorderThickness="2">
+        <Border.Effect>
+            <DropShadowEffect Color="#00FFAA" BlurRadius="15" ShadowDepth="0" Opacity="0.4"/>
+        </Border.Effect>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0" Background="{StaticResource BgPanel}" CornerRadius="6,6,0,0"
+                    MouseLeftButtonDown="Window_MouseLeftButtonDown">
+                <Grid>
+                    <TextBlock Text="// РЕГИСТРАЦИЯ МЕНЕДЖЕРА //" Foreground="{StaticResource AccentGreen}"
+                               FontFamily="Consolas" FontSize="11" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                    <Button Content="✕" HorizontalAlignment="Right" Width="30" Height="20"
+                            Background="Transparent" Foreground="{StaticResource AccentPink}"
+                            BorderThickness="0" FontSize="14" Cursor="Hand" Click="BtnBack_Click"/>
+                </Grid>
+            </Border>
+
+            <StackPanel Grid.Row="1" Margin="25,20,25,25">
+                <TextBlock Text="Создание учётной записи менеджера" Foreground="{StaticResource TextMuted}"
+                           FontFamily="Consolas" FontSize="10" Margin="0,0,0,15"/>
+
+                <TextBlock Text="Фамилия" Foreground="{StaticResource TextMuted}" FontFamily="Consolas" Margin="0,0,0,3"/>
+                <TextBox x:Name="txtLastName" Background="#151520" Foreground="#00FFAA" 
+                         FontFamily="Consolas" FontSize="12" BorderBrush="#00FFAA" 
+                         BorderThickness="1" Padding="8" Margin="0,0,0,10"
+                         CaretBrush="#00FFAA"/>
+
+                <TextBlock Text="Имя" Foreground="{StaticResource TextMuted}" FontFamily="Consolas" Margin="0,0,0,3"/>
+                <TextBox x:Name="txtFirstName" Background="#151520" Foreground="#00FFAA" 
+                         FontFamily="Consolas" FontSize="12" BorderBrush="#00FFAA" 
+                         BorderThickness="1" Padding="8" Margin="0,0,0,10"
+                         CaretBrush="#00FFAA"/>
+
+                <TextBlock Text="Телефон" Foreground="{StaticResource TextMuted}" FontFamily="Consolas" Margin="0,0,0,3"/>
+                <TextBox x:Name="txtPhone" Background="#151520" Foreground="#00FFAA" 
+                         FontFamily="Consolas" FontSize="12" BorderBrush="#00FFAA" 
+                         BorderThickness="1" Padding="8" Margin="0,0,0,10"
+                         CaretBrush="#00FFAA"/>
+
+                <TextBlock Text="Email (логин)" Foreground="{StaticResource TextMuted}" FontFamily="Consolas" Margin="0,0,0,3"/>
+                <TextBox x:Name="txtEmail" Background="#151520" Foreground="#00FFAA" 
+                         FontFamily="Consolas" FontSize="12" BorderBrush="#00FFAA" 
+                         BorderThickness="1" Padding="8" Margin="0,0,0,10"
+                         CaretBrush="#00FFAA"/>
+
+                <TextBlock Text="Пароль" Foreground="{StaticResource TextMuted}" FontFamily="Consolas" Margin="0,0,0,3"/>
+                <PasswordBox x:Name="txtPassword" Background="#151520" Foreground="#00FFAA" 
+                             FontFamily="Consolas" FontSize="12" BorderBrush="#00FFAA" 
+                             BorderThickness="1" Padding="8" Margin="0,0,0,10"
+                             CaretBrush="#00FFAA"/>
+
+                <TextBlock x:Name="txtStatus" Foreground="{StaticResource AccentPink}" FontFamily="Consolas"
+                           FontSize="10" TextWrapping="Wrap" Margin="0,5,0,0"/>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,18,0,0">
+                    <Button Content="[ ЗАРЕГИСТРИРОВАТЬ ]" Width="190" 
+                            Background="#00FFAA" Foreground="#0A0A0F" BorderThickness="0"
+                            FontFamily="Consolas" FontSize="13" FontWeight="Bold"
+                            Height="40" Cursor="Hand" Click="BtnRegister_Click">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="border" Background="#00FFAA" 
+                                        CornerRadius="4" Padding="10,5">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="border" Property="Background" Value="#00FFCC"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter TargetName="border" Property="Background" Value="#009966"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
+                    <Button Content="[ НАЗАД ]" Width="100" Margin="10,0,0,0"
+                            Background="Transparent" Foreground="#666677" BorderBrush="#666677"
+                            BorderThickness="1" FontFamily="Consolas" FontSize="12"
+                            Height="40" Cursor="Hand" Click="BtnBack_Click">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="border" Background="Transparent" 
+                                        BorderBrush="#666677" BorderThickness="1" 
+                                        CornerRadius="4" Padding="10,5">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="border" Property="BorderBrush" Value="#00FFAA"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

@@ -1,0 +1,86 @@
+﻿<Application x:Class="LaserTagArenaWPFNET10.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="Views/LoginWindow.xaml">
+    <Application.Resources>
+        <!-- Глобальные стили -->
+        <Style x:Key="CyberComboBox" TargetType="ComboBox">
+            <Setter Property="Background" Value="#0A0A0F"/>
+            <Setter Property="Foreground" Value="#00FFAA"/>
+            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="BorderBrush" Value="#333344"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Padding" Value="8,0"/>
+        </Style>
+
+        <Style x:Key="CyberBtn" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#00FFAA"/>
+            <Setter Property="BorderBrush" Value="#00FFAA"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" 
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="3"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#1A2A1A"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#0A1A0A"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="CyberBtnDanger" TargetType="Button" BasedOn="{StaticResource CyberBtn}">
+            <Setter Property="Foreground" Value="#FF3366"/>
+            <Setter Property="BorderBrush" Value="#FF3366"/>
+        </Style>
+
+        <Style x:Key="CyberBtnOrange" TargetType="Button" BasedOn="{StaticResource CyberBtn}">
+            <Setter Property="Foreground" Value="#FFAA00"/>
+            <Setter Property="BorderBrush" Value="#FFAA00"/>
+        </Style>
+
+        <Style x:Key="CyberBtnMuted" TargetType="Button" BasedOn="{StaticResource CyberBtn}">
+            <Setter Property="Foreground" Value="#666677"/>
+            <Setter Property="BorderBrush" Value="#666677"/>
+        </Style>
+
+        <Style x:Key="CyberToolbar" TargetType="Border">
+            <Setter Property="Background" Value="#111118"/>
+            <Setter Property="BorderBrush" Value="#333344"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Padding" Value="10"/>
+        </Style>
+
+        <Style x:Key="CyberTextBox" TargetType="TextBox">
+            <Setter Property="Background" Value="#151520"/>
+            <Setter Property="Foreground" Value="#00FFAA"/>
+            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="BorderBrush" Value="#00FFAA"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="CaretBrush" Value="#00FFAA"/>
+            <Setter Property="Height" Value="32"/>
+        </Style>
+    </Application.Resources>
+</Application>

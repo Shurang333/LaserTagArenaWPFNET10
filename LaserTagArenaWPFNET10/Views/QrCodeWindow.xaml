@@ -1,0 +1,49 @@
+<Window x:Class="LaserTagArenaWPFNET10.Views.QrCodeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="QR-код" Height="500" Width="400"
+        WindowStartupLocation="CenterOwner"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="NoResize">
+
+    <Border Background="#0A0A0F" CornerRadius="8"
+            BorderBrush="#00FFAA" BorderThickness="2">
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="[ QR-КОД ]" Foreground="#00FFAA" 
+                       FontFamily="Consolas" FontSize="16" FontWeight="Bold"
+                       HorizontalAlignment="Center" Margin="0,0,0,15"/>
+
+            <Image x:Name="imgQr" Grid.Row="1" 
+                   HorizontalAlignment="Center" VerticalAlignment="Center"
+                   Stretch="Uniform" MaxWidth="300" MaxHeight="300"/>
+
+            <Button Grid.Row="2" Content="[ ЗАКРЫТЬ ]" Width="100" Height="35"
+                    HorizontalAlignment="Center" Margin="0,20,0,0"
+                    Background="Transparent" Foreground="#00FFAA" BorderBrush="#00FFAA"
+                    BorderThickness="1" FontFamily="Consolas" FontSize="13"
+                    Click="BtnClose_Click" Cursor="Hand">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="Transparent" 
+                                BorderBrush="#00FFAA" BorderThickness="1" CornerRadius="4" Padding="15,8">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#1A2A1A"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </Grid>
+    </Border>
+</Window>

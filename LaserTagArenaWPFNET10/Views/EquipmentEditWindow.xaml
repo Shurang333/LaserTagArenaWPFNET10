@@ -1,0 +1,159 @@
+﻿<Window x:Class="LaserTagArenaWPFNET10.Views.EquipmentEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Редактирование товара" Height="700" Width="600"
+        WindowStartupLocation="CenterOwner"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="NoResize">
+
+    <Border Background="#0A0A0F" CornerRadius="8"
+            BorderBrush="#00FFAA" BorderThickness="2">
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="[ РЕДАКТИРОВАНИЕ ТОВАРА ]" Foreground="#00FFAA" 
+                       FontFamily="Consolas" FontSize="16" FontWeight="Bold"
+                       Margin="0,0,0,20"/>
+
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <TextBlock Text="Артикул (SKU)" Foreground="#666677" FontFamily="Consolas" Margin="0,0,0,3"/>
+                    <TextBox x:Name="txtSKU" Background="#151520" Foreground="#00FFAA" 
+                             FontFamily="Consolas" FontSize="12" BorderBrush="#00FFAA" 
+                             BorderThickness="1" Padding="8" Margin="0,0,0,12"
+                             CaretBrush="#00FFAA"/>
+
+                    <TextBlock Text="Название" Foreground="#666677" FontFamily="Consolas" Margin="0,0,0,3"/>
+                    <TextBox x:Name="txtName" Background="#151520" Foreground="#00FFAA" 
+                             FontFamily="Consolas" FontSize="12" BorderBrush="#00FFAA" 
+                             BorderThickness="1" Padding="8" Margin="0,0,0,12"
+                             CaretBrush="#00FFAA"/>
+
+                    <TextBlock Text="Описание" Foreground="#666677" FontFamily="Consolas" Margin="0,0,0,3"/>
+                    <TextBox x:Name="txtDescription" Background="#151520" Foreground="#00FFAA" 
+                             FontFamily="Consolas" FontSize="12" BorderBrush="#00FFAA" 
+                             BorderThickness="1" Padding="8" Margin="0,0,0,12"
+                             TextWrapping="Wrap" Height="80" CaretBrush="#00FFAA"/>
+
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                            <TextBlock Text="Цена" Foreground="#666677" FontFamily="Consolas" Margin="0,0,0,3"/>
+                            <TextBox x:Name="txtPrice" Background="#151520" Foreground="#00FFAA" 
+                                     FontFamily="Consolas" FontSize="12" BorderBrush="#00FFAA" 
+                                     BorderThickness="1" Padding="8" CaretBrush="#00FFAA"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                            <TextBlock Text="Старая цена" Foreground="#666677" FontFamily="Consolas" Margin="0,0,0,3"/>
+                            <TextBox x:Name="txtOldPrice" Background="#151520" Foreground="#00FFAA" 
+                                     FontFamily="Consolas" FontSize="12" BorderBrush="#00FFAA" 
+                                     BorderThickness="1" Padding="8" CaretBrush="#00FFAA"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                            <TextBlock Text="Скидка %" Foreground="#666677" FontFamily="Consolas" Margin="0,0,0,3"/>
+                            <TextBox x:Name="txtDiscount" Background="#151520" Foreground="#00FFAA" 
+                                     FontFamily="Consolas" FontSize="12" BorderBrush="#00FFAA" 
+                                     BorderThickness="1" Padding="8" CaretBrush="#00FFAA"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                            <TextBlock Text="Остаток" Foreground="#666677" FontFamily="Consolas" Margin="0,0,0,3"/>
+                            <TextBox x:Name="txtStock" Background="#151520" Foreground="#00FFAA" 
+                                     FontFamily="Consolas" FontSize="12" BorderBrush="#00FFAA" 
+                                     BorderThickness="1" Padding="8" CaretBrush="#00FFAA"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                            <TextBlock Text="Категория" Foreground="#666677" FontFamily="Consolas" Margin="0,0,0,3"/>
+                            <ComboBox x:Name="cmbCategory" Background="#151520" Foreground="#00FFAA" 
+                                      FontFamily="Consolas" FontSize="12" BorderBrush="#00FFAA" 
+                                      BorderThickness="1" Padding="8" DisplayMemberPath="Name"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                            <TextBlock Text="Производитель" Foreground="#666677" FontFamily="Consolas" Margin="0,0,0,3"/>
+                            <ComboBox x:Name="cmbManufacturer" Background="#151520" Foreground="#00FFAA" 
+                                      FontFamily="Consolas" FontSize="12" BorderBrush="#00FFAA" 
+                                      BorderThickness="1" Padding="8" DisplayMemberPath="Name"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <TextBlock Text="Теги (через запятую)" Foreground="#666677" FontFamily="Consolas" Margin="0,0,0,3"/>
+                    <TextBox x:Name="txtTags" Background="#151520" Foreground="#00FFAA" 
+                             FontFamily="Consolas" FontSize="12" BorderBrush="#00FFAA" 
+                             BorderThickness="1" Padding="8" Margin="0,0,0,12"
+                             CaretBrush="#00FFAA"/>
+
+                    <CheckBox x:Name="chkAvailable" Content="Доступен" 
+                              Foreground="#00FFAA" FontFamily="Consolas" FontSize="12"
+                              Margin="0,0,0,12"/>
+                </StackPanel>
+            </ScrollViewer>
+
+            <StackPanel Grid.Row="2" Orientation="Horizontal" 
+                        HorizontalAlignment="Right" Margin="0,20,0,0">
+                <Button Content="[ СОХРАНИТЬ ]" Width="120" Height="35"
+                        Background="#00FFAA" Foreground="#0A0A0F"
+                        FontFamily="Consolas" FontSize="13" FontWeight="Bold"
+                        Click="BtnSave_Click" Cursor="Hand">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="border" Background="#00FFAA" CornerRadius="4" Padding="15,8">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="border" Property="Background" Value="#00FFCC"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Button Content="[ ОТМЕНА ]" Width="100" Height="35" Margin="10,0,0,0"
+                        Background="Transparent" Foreground="#666677" BorderBrush="#666677"
+                        BorderThickness="1" FontFamily="Consolas" FontSize="13"
+                        Click="BtnCancel_Click" Cursor="Hand">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="border" Background="Transparent" 
+                                    BorderBrush="#666677" BorderThickness="1" CornerRadius="4" Padding="15,8">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="border" Property="BorderBrush" Value="#FF3366"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

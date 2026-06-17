@@ -1,0 +1,1039 @@
+﻿<Window x:Class="LaserTagArenaWPFNET10.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="// LASERTAG ARENA // ПАНЕЛЬ УПРАВЛЕНИЯ"
+        Height="700" Width="1200"
+        MinHeight="600" MinWidth="1000"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown">
+
+    <Window.Resources>
+        <!-- ====== СТИЛИ ДЛЯ DATAGRID ====== -->
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="#0A0A0F"/>
+            <Setter Property="Foreground" Value="#00FFAA"/>
+            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="BorderBrush" Value="#333344"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="RowBackground" Value="#0A0A0F"/>
+            <Setter Property="AlternatingRowBackground" Value="#111118"/>
+            <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="#222233"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="CanUserAddRows" Value="False"/>
+            <Setter Property="CanUserDeleteRows" Value="False"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="SelectionMode" Value="Single"/>
+        </Style>
+
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#151520"/>
+            <Setter Property="Foreground" Value="#00FFAA"/>
+            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="BorderBrush" Value="#333344"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+        </Style>
+
+        <Style TargetType="DataGridCell">
+            <Setter Property="BorderBrush" Value="#222233"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="8,5"/>
+        </Style>
+
+        <Style TargetType="DataGridRow">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#1A2A1A"/>
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#0A2A1A"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- ====== СТИЛИ ДЛЯ LISTBOX ====== -->
+        <Style TargetType="ListBox">
+            <Setter Property="Background" Value="#0A0A0F"/>
+            <Setter Property="Foreground" Value="#00FFAA"/>
+            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="BorderBrush" Value="#333344"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style TargetType="ListBoxItem">
+            <Setter Property="Padding" Value="10,8"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="border" 
+                                Background="{TemplateBinding Background}" 
+                                BorderBrush="Transparent"
+                                BorderThickness="0,0,0,1"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#1A2A1A"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#0A2A1A"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="#00FFAA"/>
+                                <Setter TargetName="border" Property="BorderThickness" Value="0,0,0,1"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ====== СТИЛЬ ДЛЯ TABITEM ====== -->
+        <Style TargetType="TabItem">
+            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#666677"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Border x:Name="border" 
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="#00FFAA"
+                                BorderThickness="0"
+                                CornerRadius="4,4,0,0"
+                                Padding="{TemplateBinding Padding}"
+                                Margin="2,0"
+                                Cursor="Hand">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center"
+                                              ContentSource="Header"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#151520"/>
+                                <Setter TargetName="border" Property="BorderThickness" Value="0,0,0,2"/>
+                                <Setter Property="Foreground" Value="#00FFAA"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="#00FFCC"/>
+                                <Setter TargetName="border" Property="Background" Value="#111118"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ====== СТИЛИ ДЛЯ КНОПОК ====== -->
+        <Style x:Key="CyberBtn" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#00FFAA"/>
+            <Setter Property="BorderBrush" Value="#00FFAA"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" 
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="3"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#1A2A1A"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#0A1A0A"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="CyberBtnDanger" TargetType="Button" BasedOn="{StaticResource CyberBtn}">
+            <Setter Property="Foreground" Value="#FF3366"/>
+            <Setter Property="BorderBrush" Value="#FF3366"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#2A0A0A"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="CyberBtnOrange" TargetType="Button" BasedOn="{StaticResource CyberBtn}">
+            <Setter Property="Foreground" Value="#FFAA00"/>
+            <Setter Property="BorderBrush" Value="#FFAA00"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#2A1A0A"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="CyberBtnMuted" TargetType="Button" BasedOn="{StaticResource CyberBtn}">
+            <Setter Property="Foreground" Value="#666677"/>
+            <Setter Property="BorderBrush" Value="#666677"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="#00FFAA"/>
+                    <Setter Property="BorderBrush" Value="#00FFAA"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- ====== СТИЛЬ ДЛЯ COMBOBOX ====== -->
+        <Style x:Key="CyberComboBox" TargetType="ComboBox">
+            <Setter Property="Background" Value="#0A0A0F"/>
+            <Setter Property="Foreground" Value="#00FFAA"/>
+            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="BorderBrush" Value="#333344"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Padding" Value="8,0"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <ToggleButton x:Name="ToggleButton" 
+                                  Grid.ColumnSpan="2"
+                                  Background="{TemplateBinding Background}"
+                                  BorderBrush="{TemplateBinding BorderBrush}"
+                                  BorderThickness="{TemplateBinding BorderThickness}"
+                                  Focusable="False"
+                                  IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                  ClickMode="Press">
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="ToggleButton">
+                                        <Border x:Name="border" 
+                                        Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        CornerRadius="3">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="20"/>
+                                                </Grid.ColumnDefinitions>
+                                                <ContentPresenter Grid.Column="0" 
+                                                          HorizontalAlignment="Left" 
+                                                          VerticalAlignment="Center"
+                                                          Margin="8,0,0,0"/>
+                                                <Path Grid.Column="1" 
+                                              Data="M0,0 L4,4 L8,0" 
+                                              Stroke="#00FFAA"
+                                              StrokeThickness="1.5"
+                                              HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center"/>
+                                            </Grid>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="border" Property="Background" Value="#1A2A1A"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <ContentPresenter x:Name="ContentSite" 
+                                      ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                      Content="{TemplateBinding SelectionBoxItem}"
+                                      Margin="8,0,25,0"
+                                      VerticalAlignment="Center"
+                                      HorizontalAlignment="Left"
+                                      IsHitTestVisible="False"/>
+                            <Popup x:Name="Popup" 
+                           Placement="Bottom"
+                           IsOpen="{TemplateBinding IsDropDownOpen}"
+                           AllowsTransparency="True"
+                           Focusable="False"
+                           PopupAnimation="Slide">
+                                <Grid MaxHeight="{TemplateBinding MaxDropDownHeight}" 
+                              MinWidth="{TemplateBinding ActualWidth}">
+                                    <Border x:Name="DropDownBorder" 
+                                    Background="#0A0A0F"
+                                    BorderBrush="#00FFAA"
+                                    BorderThickness="1"
+                                    CornerRadius="4"
+                                    Margin="0,2,0,0">
+                                        <ScrollViewer x:Name="ScrollViewer" 
+                                              Margin="0" 
+                                              SnapsToDevicePixels="True"
+                                              Background="#0A0A0F">
+                                            <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                        </ScrollViewer>
+                                    </Border>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="BorderBrush" Value="#00FFAA"/>
+                            </Trigger>
+                            <Trigger Property="IsDropDownOpen" Value="True">
+                                <Setter Property="BorderBrush" Value="#00FFAA"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="CyberTextBox" TargetType="TextBox">
+            <Setter Property="Background" Value="#151520"/>
+            <Setter Property="Foreground" Value="#00FFAA"/>
+            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="BorderBrush" Value="#00FFAA"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="CaretBrush" Value="#00FFAA"/>
+            <Setter Property="Height" Value="32"/>
+        </Style>
+
+        <Style x:Key="CyberToolbar" TargetType="Border">
+            <Setter Property="Background" Value="#111118"/>
+            <Setter Property="BorderBrush" Value="#333344"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Padding" Value="10"/>
+        </Style>
+    </Window.Resources>
+
+    <Border Background="#0A0A0F" 
+            CornerRadius="8"
+            BorderBrush="#00FFAA"
+            BorderThickness="2">
+        <Border.Effect>
+            <DropShadowEffect Color="#00FFAA" BlurRadius="15" ShadowDepth="0" Opacity="0.3"/>
+        </Border.Effect>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="90"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+
+            <!-- ====== ЗАГОЛОВОК ОКНА ====== -->
+            <Border Grid.Row="0" 
+                    Background="#111118" 
+                    CornerRadius="6,6,0,0"
+                    MouseLeftButtonDown="Window_MouseLeftButtonDown">
+                <Grid>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="10,0,0,0">
+                        <TextBlock Text="// LASERTAG ARENA //" 
+                                   Foreground="#00FFAA" 
+                                   FontFamily="Consolas"
+                                   FontSize="11"/>
+                        <TextBlock x:Name="txtWindowTitle" 
+                                   Text=" ПАНЕЛЬ УПРАВЛЕНИЯ" 
+                                   Foreground="#FF3366" 
+                                   FontFamily="Consolas"
+                                   FontSize="11"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Content="─" Width="30" Height="20" Background="Transparent"
+                                Foreground="#00FFAA" BorderThickness="0" FontSize="14" Cursor="Hand"
+                                Click="BtnMinimize_Click"/>
+                        <Button Content="□" Width="30" Height="20" Background="Transparent"
+                                Foreground="#00FFAA" BorderThickness="0" FontSize="14" Cursor="Hand"
+                                Click="BtnMaximize_Click"/>
+                        <Button Content="✕" Width="30" Height="20" Background="Transparent"
+                                Foreground="#FF3366" BorderThickness="0" FontSize="14" Cursor="Hand"
+                                Click="BtnClose_Click"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- ====== ШАПКА С ИНФО О ПОЛЬЗОВАТЕЛЕ ====== -->
+            <Border Grid.Row="1" Background="#111118" Margin="0,1,0,0">
+                <Grid Margin="15,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Orientation="Horizontal">
+                        <Border Width="60" Height="60" Background="#0A0A0F" BorderBrush="#00FFAA" 
+                                BorderThickness="1" CornerRadius="4" Margin="0,0,15,0">
+                            <TextBlock Text="[LA]" FontFamily="Consolas" FontSize="24" FontWeight="Bold"
+                                       Foreground="#00FFAA" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="LASERTAG ARENA" FontFamily="Consolas" FontSize="18" FontWeight="Bold"
+                                       Foreground="#00FFAA"/>
+                            <TextBlock Text="> Заряжайся игрой! _" FontFamily="Consolas" FontSize="11"
+                                       Foreground="#FF3366"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBlock x:Name="txtDateTime" FontFamily="Consolas" FontSize="16"
+                                   Foreground="#00FFAA" HorizontalAlignment="Center"/>
+                        <TextBlock Text="// СИСТЕМА ОНЛАЙН //" FontFamily="Consolas" FontSize="10"
+                                   Foreground="#666677" HorizontalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Border Width="1" Height="40" Background="#333344" Margin="0,0,15,0"/>
+
+                        <StackPanel>
+                            <TextBlock x:Name="txtUserName" FontFamily="Consolas" FontSize="13" FontWeight="Bold"
+                                       Foreground="#00FFAA"/>
+                            <TextBlock x:Name="txtUserRole" FontFamily="Consolas" FontSize="10"
+                                       Foreground="#FF3366"/>
+                        </StackPanel>
+
+                        <Button Content="[ 🔔 ]" Width="40" Height="30" Margin="10,0,0,0"
+                                Background="Transparent" Foreground="#00FFAA" BorderBrush="#00FFAA"
+                                BorderThickness="1" FontFamily="Consolas" FontSize="11" Cursor="Hand"
+                                Click="BtnNotifications_Click" ToolTip="Уведомления"/>
+                        <TextBlock x:Name="txtNotificationBadge" Text="" Foreground="#FF3366"
+                                   FontFamily="Consolas" FontSize="10" VerticalAlignment="Top" Margin="-8,-5,0,0"/>
+
+                        <Button Content="[ ВЫХОД ]" Width="80" Height="30" Margin="15,0,0,0"
+                                Background="Transparent" Foreground="#FF3366" BorderBrush="#FF3366"
+                                BorderThickness="1" FontFamily="Consolas" FontSize="11" Cursor="Hand"
+                                Click="BtnLogout_Click">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border x:Name="border" Background="Transparent" BorderBrush="#FF3366"
+                                            BorderThickness="1" CornerRadius="3">
+                                        <TextBlock Text="[ ВЫХОД ]" FontFamily="Consolas" FontSize="11"
+                                                   Foreground="#FF3366" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="border" Property="Background" Value="#331111"/>
+                                            <Setter TargetName="border" Property="BorderBrush" Value="#FF6666"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- ====== ОСНОВНОЙ КОНТЕНТ - ВКЛАДКИ ====== -->
+            <TabControl Grid.Row="2" x:Name="mainTabControl" Margin="10"
+                        Background="Transparent" BorderBrush="#333344" BorderThickness="1"
+                        SelectionChanged="MainTabControl_SelectionChanged">
+
+                <!-- ====== ВКЛАДКА ТОВАРЫ ====== -->
+                <TabItem Header="[ ТОВАРЫ ]" IsSelected="True">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Border Grid.Row="0" Style="{StaticResource CyberToolbar}" Margin="0,0,0,10">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <WrapPanel Grid.Row="0" Margin="0,0,0,8">
+                                    <Button Content="[ + ДОБАВИТЬ ]" Width="130" Margin="0,0,10,0"
+                                            Style="{StaticResource CyberBtn}" Click="BtnAddEquipment_Click"/>
+                                    <Button Content="[ ✎ РЕДАКТИРОВАТЬ ]" Width="150" Margin="0,0,10,0"
+                                            Style="{StaticResource CyberBtn}" Click="BtnEditEquipment_Click"/>
+                                    <Button x:Name="btnDeleteEquipment" Content="[ ✕ УДАЛИТЬ ]" Width="120" Margin="0,0,10,0"
+                                            Style="{StaticResource CyberBtnDanger}" Click="BtnDeleteEquipment_Click"/>
+                                    <Button Content="[ 🛒 В КОРЗИНУ ]" Width="130" Margin="0,0,10,0"
+                                            Style="{StaticResource CyberBtn}" Click="BtnAddToCart_Click"/>
+                                    <Button Content="[ ⟲ ОБНОВИТЬ ]" Width="120" Margin="0,0,10,0"
+                                            Style="{StaticResource CyberBtnMuted}" Click="BtnRefreshEquipment_Click"/>
+                                    <ComboBox x:Name="cmbEquipmentSort" Width="160" Style="{StaticResource CyberComboBox}"
+                                              SelectedValuePath="Tag" SelectedValue="NameAsc"
+                                              SelectionChanged="CmbEquipmentSort_SelectionChanged">
+                                        <ComboBoxItem Content="Сорт: название А-Я" Tag="NameAsc" IsSelected="True"/>
+                                        <ComboBoxItem Content="Сорт: название Я-А" Tag="NameDesc"/>
+                                        <ComboBoxItem Content="Сорт: цена ↑" Tag="PriceAsc"/>
+                                        <ComboBoxItem Content="Сорт: цена ↓" Tag="PriceDesc"/>
+                                        <ComboBoxItem Content="Сорт: остаток ↑" Tag="StockAsc"/>
+                                        <ComboBoxItem Content="Сорт: остаток ↓" Tag="StockDesc"/>
+                                    </ComboBox>
+                                </WrapPanel>
+                                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                                    <Border Background="#0A0A0F" BorderBrush="#00FFAA" BorderThickness="1"
+                                            CornerRadius="3" Width="280" Height="30" Margin="0,0,10,0">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="[ 🔍 ]" Foreground="#00FFAA" FontFamily="Consolas"
+                                                       FontSize="11" VerticalAlignment="Center" Margin="8,0"/>
+                                            <TextBox x:Name="txtSearch" Grid.Column="1" Background="Transparent"
+                                                     Foreground="#00FFAA" FontFamily="Consolas" FontSize="11"
+                                                     CaretBrush="#00FFAA" BorderThickness="0" VerticalAlignment="Center"
+                                                     TextChanged="TxtSearch_TextChanged"/>
+                                        </Grid>
+                                    </Border>
+                                    <Border Background="#0A0A0F" BorderBrush="#FFAA00" BorderThickness="1"
+                                            CornerRadius="3" Width="220" Height="30">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="[ # ТЕГИ ]" Foreground="#FFAA00" FontFamily="Consolas"
+                                                       FontSize="11" VerticalAlignment="Center" Margin="8,0"/>
+                                            <TextBox x:Name="txtTagFilter" Grid.Column="1" Background="Transparent"
+                                                     Foreground="#FFAA00" FontFamily="Consolas" FontSize="11"
+                                                     CaretBrush="#FFAA00" BorderThickness="0" VerticalAlignment="Center"
+                                                     TextChanged="TxtTagFilter_TextChanged"/>
+                                        </Grid>
+                                    </Border>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+
+                        <DataGrid x:Name="dgEquipment" Grid.Row="1" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="[ АРТИКУЛ ]" Binding="{Binding SKU}" Width="100"/>
+                                <DataGridTextColumn Header="[ НАЗВАНИЕ ]" Binding="{Binding Name}" Width="250"/>
+                                <DataGridTextColumn Header="[ КАТЕГОРИЯ ]" Binding="{Binding CategoryName}" Width="120"/>
+                                <DataGridTextColumn Header="[ ЦЕНА ]" Binding="{Binding PriceDisplay}" Width="150"/>
+                                <DataGridTextColumn Header="[ ОСТАТОК ]" Binding="{Binding AvailabilityText}" Width="120"/>
+                                <DataGridTextColumn Header="[ ПРОИЗВОДИТЕЛЬ ]" Binding="{Binding ManufacturerName}" Width="150"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <Border Grid.Row="2" Background="#111118" BorderBrush="#333344" 
+                                BorderThickness="1" CornerRadius="4" Margin="0,10,0,0" Padding="10,5">
+                            <Grid>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock x:Name="txtEquipmentStatus" Text="> ГОТОВ" Foreground="#00FFAA" 
+                                               FontFamily="Consolas" FontSize="10"/>
+                                    <TextBlock Text=" // " Foreground="#333344" FontFamily="Consolas" FontSize="10"/>
+                                    <TextBlock x:Name="txtEquipmentCount" Text="ЗАГРУЖЕНО: 0" Foreground="#666677" 
+                                               FontFamily="Consolas" FontSize="10"/>
+                                </StackPanel>
+                                <TextBlock x:Name="txtEquipmentTime" Text="00:00" Foreground="#666677" 
+                                           FontFamily="Consolas" FontSize="10" HorizontalAlignment="Right"/>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </TabItem>
+
+                <!-- ====== ВКЛАДКА ЗАКАЗЫ ====== -->
+                <TabItem Header="[ ЗАКАЗЫ ]">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Border Grid.Row="0" Style="{StaticResource CyberToolbar}" Margin="0,0,0,10">
+                            <WrapPanel>
+                                <Button Content="[ ⟲ ОБНОВИТЬ ]" Width="120" Margin="0,0,10,0"
+                                        Style="{StaticResource CyberBtnMuted}" Click="BtnRefreshOrders_Click"/>
+                                <Button Content="[ + ЗАКАЗ ]" Width="110" Margin="0,0,10,0"
+                                        Style="{StaticResource CyberBtn}" Click="BtnCreateOrder_Click"/>
+                                <Button x:Name="btnDeleteOrder" Content="[ ✕ УДАЛИТЬ ]" Width="110" Margin="0,0,10,0"
+                                        Style="{StaticResource CyberBtnDanger}" Click="BtnDeleteOrder_Click" ToolTip="Удалить заказ"/>
+                                <Button Content="[ PDF ]" Width="70" Margin="0,0,10,0"
+                                        Style="{StaticResource CyberBtnOrange}" Click="BtnPdfReceipt_Click" ToolTip="PDF чек"/>
+                                <Button Content="[ QR ]" Width="60" Margin="0,0,10,0"
+                                        Style="{StaticResource CyberBtnOrange}" Click="BtnShowQr_Click" ToolTip="QR-код заказа"/>
+                                <ComboBox x:Name="cmbOrderSort" Width="150" Style="{StaticResource CyberComboBox}" Margin="0,0,10,0"
+                                          SelectedValuePath="Tag" SelectedValue="DateDesc"
+                                          SelectionChanged="CmbOrderSort_SelectionChanged">
+                                    <ComboBoxItem Content="Сорт: дата ↓" Tag="DateDesc" IsSelected="True"/>
+                                    <ComboBoxItem Content="Сорт: дата ↑" Tag="DateAsc"/>
+                                    <ComboBoxItem Content="Сорт: сумма ↓" Tag="AmountDesc"/>
+                                    <ComboBoxItem Content="Сорт: сумма ↑" Tag="AmountAsc"/>
+                                </ComboBox>
+
+                                <ComboBox x:Name="cmbOrderStatus" Width="150" Style="{StaticResource CyberComboBox}"
+                                          Margin="0,0,10,0" SelectedValuePath="Tag" SelectedValue=""
+                                          SelectionChanged="CmbOrderStatus_SelectionChanged">
+                                    <ComboBoxItem Content="[ ВСЕ ]" Tag=""/>
+                                    <ComboBoxItem Content="[ НОВЫЕ ]" Tag="1"/>
+                                    <ComboBoxItem Content="[ В ОБРАБОТКЕ ]" Tag="2"/>
+                                    <ComboBoxItem Content="[ ВЫДАН ]" Tag="5"/>
+                                    <ComboBoxItem Content="[ ЗАВЕРШЕН ]" Tag="7"/>
+                                </ComboBox>
+
+                                <Border Background="#0A0A0F" BorderBrush="#00FFAA" BorderThickness="1"
+                                        CornerRadius="3" Width="220" Height="30" Margin="0,0,0,0">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="[ 🔍 ]" Foreground="#00FFAA" FontFamily="Consolas"
+                                                   FontSize="11" VerticalAlignment="Center" Margin="8,0"/>
+                                        <TextBox x:Name="txtOrderSearch" Grid.Column="1" Background="Transparent"
+                                                 Foreground="#00FFAA" FontFamily="Consolas" FontSize="11"
+                                                 CaretBrush="#00FFAA" BorderThickness="0" VerticalAlignment="Center"
+                                                 TextChanged="TxtOrderSearch_TextChanged"/>
+                                    </Grid>
+                                </Border>
+                            </WrapPanel>
+                        </Border>
+
+                        <DataGrid x:Name="dgOrders" Grid.Row="1" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="[ НОМЕР ]" Binding="{Binding OrderNumber}" Width="120"/>
+                                <DataGridTextColumn Header="[ ДАТА ]" Binding="{Binding OrderDateDisplay}" Width="150"/>
+                                <DataGridTextColumn Header="[ КЛИЕНТ ]" Binding="{Binding CustomerName}" Width="180"/>
+                                <DataGridTextColumn Header="[ ТЕЛЕФОН ]" Binding="{Binding CustomerPhone}" Width="130"/>
+                                <DataGridTextColumn Header="[ СУММА ]" Binding="{Binding TotalAmountDisplay}" Width="120"/>
+                                <DataGridTextColumn Header="[ СТАТУС ]" Binding="{Binding StatusName}" Width="130"/>
+                                <DataGridTemplateColumn Header="[ ДЕЙСТВИЯ ]" Width="80">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Content="[ → ]" Width="40" Height="25"
+                                                    Click="BtnEditOrder_Click" Tag="{Binding OrderID}">
+                                                <Button.Template>
+                                                    <ControlTemplate TargetType="Button">
+                                                        <Border x:Name="border" Background="Transparent" 
+                                                                BorderBrush="#FFAA00" BorderThickness="1" CornerRadius="3">
+                                                            <TextBlock Text="[ → ]" FontFamily="Consolas" FontSize="11"
+                                                                       Foreground="#FFAA00" HorizontalAlignment="Center"/>
+                                                        </Border>
+                                                        <ControlTemplate.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter TargetName="border" Property="Background" Value="#2A1A0A"/>
+                                                            </Trigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Button.Template>
+                                            </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <Border Grid.Row="2" Background="#111118" BorderBrush="#333344" 
+                                BorderThickness="1" CornerRadius="4" Margin="0,10,0,0" Padding="10,5">
+                            <Grid>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock x:Name="txtOrdersStatus" Text="> ГОТОВ" Foreground="#00FFAA" 
+                                               FontFamily="Consolas" FontSize="10"/>
+                                    <TextBlock Text=" // " Foreground="#333344" FontFamily="Consolas" FontSize="10"/>
+                                    <TextBlock x:Name="txtOrdersCount" Text="ЗАГРУЖЕНО: 0" Foreground="#666677" 
+                                               FontFamily="Consolas" FontSize="10"/>
+                                </StackPanel>
+                                <TextBlock x:Name="txtOrdersTime" Text="00:00" Foreground="#666677" 
+                                           FontFamily="Consolas" FontSize="10" HorizontalAlignment="Right"/>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </TabItem>
+
+                <!-- ====== ВКЛАДКА ПОСТАВКИ ====== -->
+                <TabItem x:Name="tabShipments" Header="[ ПОСТАВКИ ]">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Border Grid.Row="0" Style="{StaticResource CyberToolbar}" Margin="0,0,0,10">
+                            <WrapPanel>
+                                <Button Content="[ + НОВАЯ ПОСТАВКА ]" Width="160" Margin="0,0,10,0"
+                                        Style="{StaticResource CyberBtn}" Click="BtnAddShipment_Click"/>
+                                <Button Content="[ ✓ ЗАВЕРШИТЬ ]" Width="130" Margin="0,0,10,0"
+                                        Style="{StaticResource CyberBtnOrange}" Click="BtnCompleteShipment_Click"/>
+                                <Button Content="[ ⟲ ОБНОВИТЬ ]" Width="120" Margin="0,0,10,0"
+                                        Style="{StaticResource CyberBtnMuted}" Click="BtnRefreshShipments_Click"/>
+                                <ComboBox x:Name="cmbShipmentSort" Width="160" Style="{StaticResource CyberComboBox}"
+                                          Margin="0,0,10,0" SelectedValuePath="Tag" SelectedValue="DateDesc"
+                                          SelectionChanged="CmbShipmentSort_SelectionChanged">
+                                    <ComboBoxItem Content="Сорт: дата ↓" Tag="DateDesc"/>
+                                    <ComboBoxItem Content="Сорт: дата ↑" Tag="DateAsc"/>
+                                    <ComboBoxItem Content="Сорт: сумма ↓" Tag="AmountDesc"/>
+                                    <ComboBoxItem Content="Сорт: сумма ↑" Tag="AmountAsc"/>
+                                    <ComboBoxItem Content="Сорт: поставщик А-Я" Tag="SupplierAsc"/>
+                                </ComboBox>
+                                <ComboBox x:Name="cmbShipmentStatus" Width="150" Style="{StaticResource CyberComboBox}"
+                                          Margin="0,0,10,0" SelectedValuePath="Tag" SelectedValue=""
+                                          SelectionChanged="CmbShipmentStatus_SelectionChanged">
+                                    <ComboBoxItem Content="[ ВСЕ ]" Tag=""/>
+                                    <ComboBoxItem Content="[ ОЖИДАЕТСЯ ]" Tag="1"/>
+                                    <ComboBoxItem Content="[ В ПУТИ ]" Tag="2"/>
+                                    <ComboBoxItem Content="[ ДОСТАВЛЕНО ]" Tag="3"/>
+                                </ComboBox>
+                                <Border Background="#0A0A0F" BorderBrush="#00FFAA" BorderThickness="1"
+                                        CornerRadius="3" Width="200" Height="30">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="[ 🔍 ]" Foreground="#00FFAA" FontFamily="Consolas"
+                                                   FontSize="11" VerticalAlignment="Center" Margin="8,0"/>
+                                        <TextBox x:Name="txtShipmentSearch" Grid.Column="1" Background="Transparent"
+                                                 Foreground="#00FFAA" FontFamily="Consolas" FontSize="11"
+                                                 CaretBrush="#00FFAA" BorderThickness="0" VerticalAlignment="Center"
+                                                 TextChanged="TxtShipmentSearch_TextChanged"/>
+                                    </Grid>
+                                </Border>
+                            </WrapPanel>
+                        </Border>
+
+                        <DataGrid x:Name="dgShipments" Grid.Row="1" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="[ НОМЕР ]" Binding="{Binding ShipmentNumber}" Width="130"/>
+                                <DataGridTextColumn Header="[ ПОСТАВЩИК ]" Binding="{Binding SupplierName}" Width="200"/>
+                                <DataGridTextColumn Header="[ ДАТА ]" Binding="{Binding ShipmentDateDisplay}" Width="120"/>
+                                <DataGridTextColumn Header="[ СУММА ]" Binding="{Binding TotalCostDisplay}" Width="130"/>
+                                <DataGridTextColumn Header="[ СТАТУС ]" Binding="{Binding StatusName}" Width="130"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <Border Grid.Row="2" Background="#111118" BorderBrush="#333344" 
+                                BorderThickness="1" CornerRadius="4" Margin="0,10,0,0" Padding="10,5">
+                            <Grid>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock x:Name="txtShipmentsStatus" Text="> ГОТОВ" Foreground="#00FFAA" 
+                                               FontFamily="Consolas" FontSize="10"/>
+                                    <TextBlock Text=" // " Foreground="#333344" FontFamily="Consolas" FontSize="10"/>
+                                    <TextBlock x:Name="txtShipmentsCount" Text="ЗАГРУЖЕНО: 0" Foreground="#666677" 
+                                               FontFamily="Consolas" FontSize="10"/>
+                                </StackPanel>
+                                <TextBlock x:Name="txtShipmentsTime" Text="00:00" Foreground="#666677" 
+                                           FontFamily="Consolas" FontSize="10" HorizontalAlignment="Right"/>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </TabItem>
+
+                <!-- ====== ВКЛАДКА СПРАВОЧНИКИ ====== -->
+                <TabItem Header="[ СПРАВОЧНИКИ ]">
+                    <Grid Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0" Background="#111118" BorderBrush="#333344" BorderThickness="1"
+                                CornerRadius="4" Padding="10" Margin="0,0,5,0">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+                                    <TextBlock Text="[ КАТЕГОРИИ ]" FontFamily="Consolas" FontSize="14" FontWeight="Bold"
+                                               Foreground="#00FFAA" VerticalAlignment="Center" Margin="0,0,15,0"/>
+                                    <Button Content="[ + ДОБАВИТЬ ]" Width="110" Margin="0,0,8,0"
+                                            Style="{StaticResource CyberBtn}" Click="BtnAddCategory_Click"/>
+                                    <Button x:Name="btnDeleteCategory" Content="[ ✕ УДАЛИТЬ ]" Width="110"
+                                            Style="{StaticResource CyberBtnDanger}" Click="BtnDeleteCategory_Click"/>
+                                </StackPanel>
+
+                                <DataGrid x:Name="dgCategories" Grid.Row="1" AutoGenerateColumns="False"
+                                          SelectionMode="Single" SelectionUnit="FullRow">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="[ НАЗВАНИЕ ]" Binding="{Binding Name}" Width="*"/>
+                                        <DataGridTextColumn Header="[ ID ]" Binding="{Binding CategoryID}" Width="60"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Grid>
+                        </Border>
+
+                        <Border Grid.Column="1" Background="#111118" BorderBrush="#333344" BorderThickness="1"
+                                CornerRadius="4" Padding="10" Margin="5,0,0,0">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+                                    <TextBlock Text="[ ПРОИЗВОДИТЕЛИ ]" FontFamily="Consolas" FontSize="14" FontWeight="Bold"
+                                               Foreground="#00FFAA" VerticalAlignment="Center" Margin="0,0,15,0"/>
+                                    <Button Content="[ + ДОБАВИТЬ ]" Width="110" Margin="0,0,8,0"
+                                            Style="{StaticResource CyberBtn}" Click="BtnAddManufacturer_Click"/>
+                                    <Button x:Name="btnDeleteManufacturer" Content="[ ✕ УДАЛИТЬ ]" Width="110"
+                                            Style="{StaticResource CyberBtnDanger}" Click="BtnDeleteManufacturer_Click"/>
+                                </StackPanel>
+
+                                <DataGrid x:Name="dgManufacturers" Grid.Row="1" AutoGenerateColumns="False"
+                                          SelectionMode="Single" SelectionUnit="FullRow">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="[ НАЗВАНИЕ ]" Binding="{Binding Name}" Width="*"/>
+                                        <DataGridTextColumn Header="[ СТРАНА ]" Binding="{Binding Country}" Width="120"/>
+                                        <DataGridTextColumn Header="[ ID ]" Binding="{Binding ManufacturerID}" Width="60"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </TabItem>
+
+                <!-- ====== ВКЛАДКА ИСТОРИЯ ЦЕН ====== -->
+                <TabItem x:Name="tabPriceHistory" Header="[ ИСТОРИЯ ЦЕН ]">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Border Grid.Row="0" Background="#151520" BorderBrush="#333344" BorderThickness="1"
+                                CornerRadius="4" Padding="10" Margin="0,0,0,10">
+                            <WrapPanel>
+                                <Button Content="[ ⟲ ОБНОВИТЬ ]" Width="120" Click="BtnRefreshPriceHistory_Click">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border x:Name="border" Background="Transparent" BorderBrush="#666677"
+                                                    BorderThickness="1" CornerRadius="3" Padding="10,5" Cursor="Hand">
+                                                <TextBlock Text="[ ⟲ ОБНОВИТЬ ]" FontFamily="Consolas" FontSize="11"
+                                                           Foreground="#666677" HorizontalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="border" Property="BorderBrush" Value="#00FFAA"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </WrapPanel>
+                        </Border>
+
+                        <DataGrid x:Name="dgPriceHistory" Grid.Row="1" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="[ ТОВАР ]" Binding="{Binding EquipmentName}" Width="250"/>
+                                <DataGridTextColumn Header="[ АРТИКУЛ ]" Binding="{Binding EquipmentSKU}" Width="120"/>
+                                <DataGridTextColumn Header="[ СТАРАЯ ЦЕНА ]" Binding="{Binding OldPriceDisplay}" Width="130"/>
+                                <DataGridTextColumn Header="[ НОВАЯ ЦЕНА ]" Binding="{Binding NewPriceDisplay}" Width="130"/>
+                                <DataGridTextColumn Header="[ ДАТА ИЗМЕНЕНИЯ ]" Binding="{Binding ChangeDateDisplay}" Width="180"/>
+                                <DataGridTextColumn Header="[ КТО ИЗМЕНИЛ ]" Binding="{Binding ChangedByUserName}" Width="150"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <Border Grid.Row="2" Background="#111118" BorderBrush="#333344" 
+                                BorderThickness="1" CornerRadius="4" Margin="0,10,0,0" Padding="10,5">
+                            <Grid>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock x:Name="txtHistoryStatus" Text="> ГОТОВ" Foreground="#00FFAA" 
+                                               FontFamily="Consolas" FontSize="10"/>
+                                    <TextBlock Text=" // " Foreground="#333344" FontFamily="Consolas" FontSize="10"/>
+                                    <TextBlock x:Name="txtHistoryCount" Text="ЗАПИСЕЙ: 0" Foreground="#666677" 
+                                               FontFamily="Consolas" FontSize="10"/>
+                                </StackPanel>
+                                <TextBlock x:Name="txtHistoryTime" Text="00:00" Foreground="#666677" 
+                                           FontFamily="Consolas" FontSize="10" HorizontalAlignment="Right"/>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </TabItem>
+
+                <!-- ====== КОРЗИНА ====== -->
+                <TabItem Header="[ КОРЗИНА ]">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="0" Style="{StaticResource CyberToolbar}" Margin="0,0,0,10">
+                            <WrapPanel>
+                                <Button Content="[ ✓ ОФОРМИТЬ ЗАКАЗ ]" Width="180" Margin="0,0,10,0"
+                                        Style="{StaticResource CyberBtn}" Click="BtnCheckoutCart_Click"/>
+                                <Button Content="[ ✕ УДАЛИТЬ ]" Width="120" Margin="0,0,10,0"
+                                        Style="{StaticResource CyberBtnDanger}" Click="BtnRemoveFromCart_Click"/>
+                                <Button Content="[ ⟲ ОБНОВИТЬ ]" Width="120" Style="{StaticResource CyberBtnMuted}"
+                                        Click="BtnRefreshCart_Click"/>
+                            </WrapPanel>
+                        </Border>
+                        <DataGrid x:Name="dgCart" Grid.Row="1" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="[ ТОВАР ]" Binding="{Binding EquipmentName}" Width="*"/>
+                                <DataGridTextColumn Header="[ АРТИКУЛ ]" Binding="{Binding EquipmentSKU}" Width="120"/>
+                                <DataGridTextColumn Header="[ КОЛ-ВО ]" Binding="{Binding Quantity}" Width="80"/>
+                                <DataGridTextColumn Header="[ СУММА ]" Binding="{Binding TotalPriceDisplay}" Width="120"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </TabItem>
+
+                <!-- ====== РЕКОМЕНДАЦИИ / ИИ ====== -->
+                <TabItem Header="[ ИИ / ТЕГИ ]">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="200"/>
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="0" Style="{StaticResource CyberToolbar}" Margin="0,0,0,10">
+                            <WrapPanel>
+                                <TextBox x:Name="txtAiQuery" Width="350" Style="{StaticResource CyberTextBox}" Margin="0,0,10,0"/>
+                                <Button Content="[ ИИ-КОНСУЛЬТАНТ ]" Width="160" Margin="0,0,10,0"
+                                        Style="{StaticResource CyberBtn}" Click="BtnAiAdvice_Click"/>
+                                <Button Content="[ ПО ТЕГАМ ]" Width="120" Style="{StaticResource CyberBtnOrange}"
+                                        Click="BtnRecommendByTags_Click"/>
+                            </WrapPanel>
+                        </Border>
+                        <ListBox x:Name="lstRecommendations" Grid.Row="1">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" Margin="5">
+                                        <TextBlock Text="{Binding Name}" Foreground="#00FFAA" FontFamily="Consolas" Width="300"/>
+                                        <TextBlock Text="{Binding PriceDisplay}" Foreground="#FFAA00" FontFamily="Consolas" Margin="20,0,0,0"/>
+                                        <TextBlock Text="{Binding Tags}" Foreground="#666677" FontFamily="Consolas" Margin="20,0,0,0"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <TextBox x:Name="txtAiResponse" Grid.Row="2" Margin="0,10,0,0"
+                                 Background="#111118" Foreground="#00FFAA" FontFamily="Consolas"
+                                 TextWrapping="Wrap" AcceptsReturn="True" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
+                    </Grid>
+                </TabItem>
+
+                <!-- ====== АДМИНИСТРИРОВАНИЕ (только админ) ====== -->
+                <TabItem x:Name="tabAdmin" Header="[ АДМИН ]" Visibility="Collapsed">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="0" Style="{StaticResource CyberToolbar}" Margin="0,0,0,10">
+                            <WrapPanel>
+                                <Button Content="[ ⟲ ОБНОВИТЬ ]" Width="120" Margin="0,0,10,0"
+                                        Style="{StaticResource CyberBtnMuted}" Click="BtnRefreshUsers_Click"/>
+                                <Button Content="[ ✓ АКТИВИРОВАТЬ ]" Width="140" Margin="0,0,10,0"
+                                        Style="{StaticResource CyberBtn}" Click="BtnActivateUser_Click"/>
+                                <Button x:Name="btnBlockUser" Content="[ ✕ ЗАБЛОКИРОВАТЬ ]" Width="150" Margin="0,0,10,0"
+                                        Style="{StaticResource CyberBtnDanger}" Click="BtnBlockUser_Click"/>
+                                <Button Content="[ ↑ АДМИН ]" Width="110" Margin="0,0,10,0"
+                                        Style="{StaticResource CyberBtnOrange}" Click="BtnMakeAdmin_Click"/>
+                                <Button Content="[ ↓ МЕНЕДЖЕР ]" Width="120" Style="{StaticResource CyberBtnMuted}"
+                                        Click="BtnMakeManager_Click"/>
+                            </WrapPanel>
+                        </Border>
+                        <DataGrid x:Name="dgUsers" Grid.Row="1" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="[ ФИО ]" Binding="{Binding FullName}" Width="200"/>
+                                <DataGridTextColumn Header="[ EMAIL ]" Binding="{Binding Email}" Width="*"/>
+                                <DataGridTextColumn Header="[ ТЕЛЕФОН ]" Binding="{Binding Phone}" Width="130"/>
+                                <DataGridTextColumn Header="[ РОЛЬ ]" Binding="{Binding RoleName}" Width="130"/>
+                                <DataGridTextColumn Header="[ СТАТУС ]" Binding="{Binding StatusText}" Width="110"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <Border Grid.Row="2" Background="#111118" BorderBrush="#333344"
+                                BorderThickness="1" CornerRadius="4" Margin="0,10,0,0" Padding="10,5">
+                            <TextBlock x:Name="txtAdminHint" Text="> Управление пользователями — только для администратора"
+                                       Foreground="#666677" FontFamily="Consolas" FontSize="10"/>
+                        </Border>
+                    </Grid>
+                </TabItem>
+
+                <!-- ====== УВЕДОМЛЕНИЯ ====== -->
+                <TabItem Header="[ УВЕДОМЛЕНИЯ ]">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="0" Style="{StaticResource CyberToolbar}" Margin="0,0,0,10">
+                            <WrapPanel>
+                                <Button Content="[ ⟲ ОБНОВИТЬ ]" Width="120" Margin="0,0,10,0"
+                                        Style="{StaticResource CyberBtnMuted}" Click="BtnRefreshNotifications_Click"/>
+                                <Button Content="[ ✓ ПРОЧИТАНО ]" Width="130" Style="{StaticResource CyberBtn}"
+                                        Click="BtnMarkNotificationsRead_Click"/>
+                            </WrapPanel>
+                        </Border>
+                        <ListBox x:Name="lstNotifications" Grid.Row="1">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="5">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Border Background="#151520" BorderBrush="#00FFAA" BorderThickness="1"
+                                                    CornerRadius="3" Padding="6,2" Margin="0,0,8,0">
+                                                <TextBlock Text="{Binding TypeDisplay}" Foreground="#FFAA00"
+                                                           FontFamily="Consolas" FontSize="10"/>
+                                            </Border>
+                                            <TextBlock Text="{Binding CreatedAtDisplay}" Foreground="#666677"
+                                                       FontFamily="Consolas" FontSize="10" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        <TextBlock Text="{Binding Message}" Foreground="#00FFAA" FontFamily="Consolas"
+                                                   TextWrapping="Wrap" Margin="0,6,0,0"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+                </TabItem>
+
+            </TabControl>
+
+            <!-- ====== ГЛАВНЫЙ СТАТУС-БАР ====== -->
+            <Border Grid.Row="3" 
+                    Background="#111118" 
+                    CornerRadius="0,0,6,6"
+                    BorderBrush="#333344"
+                    BorderThickness="0,1,0,0">
+                <Grid Margin="10,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock x:Name="txtStatus" 
+                                   Text="> СИСТЕМА ГОТОВА" 
+                                   Foreground="#00FFAA" 
+                                   FontFamily="Consolas"
+                                   FontSize="10"
+                                   VerticalAlignment="Center"/>
+                        <TextBlock Text=" // " 
+                                   Foreground="#333344" 
+                                   FontFamily="Consolas"
+                                   FontSize="10"/>
+                        <TextBlock x:Name="txtRecordCount" 
+                                   Text="ЗАГРУЖЕНО: 0" 
+                                   Foreground="#666677" 
+                                   FontFamily="Consolas"
+                                   FontSize="10"/>
+                    </StackPanel>
+
+                    <TextBlock Text="LASERTAG ARENA v1.0 // WPF" 
+                               Foreground="#333344" 
+                               FontFamily="Consolas"
+                               FontSize="10"
+                               HorizontalAlignment="Right"/>
+                </Grid>
+            </Border>
+
+        </Grid>
+    </Border>
+</Window>
